@@ -10,7 +10,10 @@ public class NoArgsBeforeAllArgs {
     @NotBlank
     public String job;
 
+    public boolean onlyInitiatedByNoArgs;
+
     public NoArgsBeforeAllArgs() {
+        this.onlyInitiatedByNoArgs = true;
     }
 
     @ConstructorProperties({"name", "job"})

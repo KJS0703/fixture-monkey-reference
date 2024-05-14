@@ -10,6 +10,7 @@ public class AllArgsBeforeNoArgs {
     @NotBlank
     public String job;
 
+    public boolean onlyInitiatedByNoArgs;
 
     @ConstructorProperties({"name", "job"})
     public AllArgsBeforeNoArgs(String name, String job) {
@@ -17,5 +18,6 @@ public class AllArgsBeforeNoArgs {
         this.job = job;
     }
     public AllArgsBeforeNoArgs() {
+        this.onlyInitiatedByNoArgs = true;
     }
 }
