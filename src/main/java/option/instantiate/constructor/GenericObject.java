@@ -1,7 +1,7 @@
-package option.instantiate;
+package option.instantiate.constructor;
 
 public class GenericObject<T> {
-    T value;
+    public T value;
 
     public GenericObject(T value) {
         this.value = value;

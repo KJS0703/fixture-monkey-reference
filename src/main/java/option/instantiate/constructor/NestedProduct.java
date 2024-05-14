@@ -1,19 +1,15 @@
-package option.instantiate;
+package option.instantiate.constructor;
 
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
 public class NestedProduct {
-    long id;
-
-    String productName;
-
-    long price;
-
-    List<String> options;
-
-    Instant createdAt;
+    public long id;
+    public String productName;
+    public long price;
+    public List<String> options;
+    public Instant createdAt;
 
     public NestedProduct() {
         this.id = 0;

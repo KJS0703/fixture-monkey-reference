@@ -6,10 +6,12 @@ import com.navercorp.fixturemonkey.api.type.TypeReference;
 import constructor_properties.AllArgsBeforeNoArgs;
 import constructor_properties.NoArgsBeforeAllArgs;
 import constructor_properties.TwoCustomConstructors;
+import option.instantiate.constructor.GenericObject;
+import option.instantiate.constructor.NestedProduct;
+import option.instantiate.constructor.ProductList;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
