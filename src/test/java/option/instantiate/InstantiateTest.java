@@ -9,9 +9,11 @@ import constructor_properties.TwoCustomConstructors;
 import option.instantiate.constructor.GenericObject;
 import option.instantiate.constructor.NestedProduct;
 import option.instantiate.constructor.ProductList;
+import option.instantiate.factory_method.TwoFactoryMethods;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -160,5 +162,30 @@ class InstantiateTest {
         Assertions.assertThat(productList.listName).isEqualTo("defaultProductListName");
         Assertions.assertThat(productList.list).hasSize(1);
         Assertions.assertThat(productList.list.get(0).productName).isEqualTo("defaultProductName");
+    }
+
+    @RepeatedTest(10)
+    @DisplayName("factoryMethod() - 2개일 때는 랜덤으로 선택")
+    void test_600() {
+        FixtureMonkey fixtureMonkey = FixtureMonkey.create();
+
+            TwoFactoryMethods instant = fixtureMonkey.giveMeBuilder(TwoFactoryMethods.class)
+                                                     .instantiate(
+                                                         Instantiator.factoryMethod("from")
+                                                             .parameter(long.class)
+                                                                .parameter(long.class)
+                                                     )
+                                                     .sample();
+        Assertions.assertThat(instant.getProductName()).isEqualTo("product");
+
+        instant = fixtureMonkey.giveMeBuilder(TwoFactoryMethods.class)
+                               .instantiate(
+                                   Instantiator.factoryMethod("from")
+                                               .parameter(String.class)
+                                               .parameter(long.class)
+                               )
+                               .sample();
+
+        Assertions.assertThat(instant.getProductName()).isNotEqualTo("product");
     }
 }
