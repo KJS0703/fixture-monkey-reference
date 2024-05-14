@@ -12,10 +12,14 @@ import org.junit.jupiter.api.RepeatedTest;
 
 import java.util.List;
 
+/*
+    https://naver.github.io/fixture-monkey/v1-0-0-kor/docs/generating-objects/instantiate-methods/#%EC%83%9D%EC%84%B1%EC%9E%90
+    위 페이지에 있는 docs 내용에 대한 학습 테스트 들.
+ */
 class InstantiateTest {
 
     @RepeatedTest(10)
-    @DisplayName("constructor() 기본생성자 있으면 기본 생성자를 사용한다. - 생성자 순서 무시")
+    @DisplayName("constructor() - 기본생성자 있으면 기본 생성자를 사용한다. - 생성자 순서 무시")
     void test_100() {
         FixtureMonkey fixtureMonkey = FixtureMonkey.create();
 
@@ -76,5 +80,41 @@ class InstantiateTest {
                                        .sample();
 
         Assertions.assertThat(instant.productName).isEqualTo("defaultProductName");
+    }
+
+    @RepeatedTest(10)
+    @DisplayName("constructor() - 매개변수 이름으로 힌트 제공")
+    void test_301() {
+        FixtureMonkey fixtureMonkey = FixtureMonkey.create();
+
+        TwoCustomConstructors instant = fixtureMonkey.giveMeBuilder(TwoCustomConstructors.class)
+                                                     .instantiate(
+                                                         Instantiator.constructor()
+                                                                     .parameter(String.class, "pName")
+                                                                     .parameter(long.class)
+                                                                     .parameter(long.class)
+                                                     )
+                                                     .set("pName", "제품 이름이요.")
+                                                     .sample();
+
+        Assertions.assertThat(instant.productName).isEqualTo("제품 이름이요.");
+    }
+
+    @RepeatedTest(10)
+    @DisplayName("constructor() - 매개변수 이름으로 힌트 제공하면 필드명 사용불가")
+    void test_302() {
+        FixtureMonkey fixtureMonkey = FixtureMonkey.create();
+
+        TwoCustomConstructors instant = fixtureMonkey.giveMeBuilder(TwoCustomConstructors.class)
+                                                     .instantiate(
+                                                         Instantiator.constructor()
+                                                                     .parameter(String.class, "pName")
+                                                                     .parameter(long.class)
+                                                                     .parameter(long.class)
+                                                     )
+                                                     .set("productName", "제품 이름이요.")
+                                                     .sample();
+
+        Assertions.assertThat(instant.productName).isNotEqualTo("제품 이름이요.");
     }
 }
