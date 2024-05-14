@@ -134,4 +134,29 @@ class InstantiateTest {
         Assertions.assertThat(instant).isNotNull();
         Assertions.assertThat(instant.value).isEqualTo("Hello");
     }
+
+    @RepeatedTest(30)
+    @DisplayName("constructor() - 중첩된 객체가 포함된 생성자.")
+    void test_500() {
+        FixtureMonkey fixtureMonkey = FixtureMonkey.create();
+        ProductList productList = fixtureMonkey.giveMeBuilder(ProductList.class)
+                                               .instantiate(
+                                                   ProductList.class,
+                                                   Instantiator.constructor()
+                                                       .parameter(new TypeReference<List<NestedProduct>>() {}, "list")
+                                               )
+                                               .instantiate(
+                                                   NestedProduct.class,
+                                                   Instantiator.constructor()
+                                                       .parameter(long.class)
+                                                       .parameter(long.class)
+                                                       .parameter(new TypeReference<List<String>>(){})
+                                               )
+                                               .size("list", 1)
+                                               .sample();
+
+        Assertions.assertThat(productList.listName).isEqualTo("defaultProductListName");
+        Assertions.assertThat(productList.list).hasSize(1);
+        Assertions.assertThat(productList.list.get(0).productName).isEqualTo("defaultProductName");
+    }
 }
