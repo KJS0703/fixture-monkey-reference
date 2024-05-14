@@ -165,7 +165,7 @@ class InstantiateTest {
     }
 
     @RepeatedTest(10)
-    @DisplayName("factoryMethod() - 2개일 때는 랜덤으로 선택")
+    @DisplayName("factoryMethod() - 특정 팩토리 메서드를 사용할 수 있다.")
     void test_600() {
         FixtureMonkey fixtureMonkey = FixtureMonkey.create();
 
