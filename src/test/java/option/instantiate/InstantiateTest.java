@@ -9,6 +9,7 @@ import constructor_properties.TwoCustomConstructors;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -116,5 +117,21 @@ class InstantiateTest {
                                                      .sample();
 
         Assertions.assertThat(instant.productName).isNotEqualTo("제품 이름이요.");
+    }
+
+    @RepeatedTest(30)
+    @DisplayName("constructor() - 제네릭 객체일 때.")
+    void test_400() {
+        FixtureMonkey fixtureMonkey = FixtureMonkey.create();
+
+        GenericObject<String> instant = fixtureMonkey.giveMeBuilder(new TypeReference<GenericObject<String>>() {})
+                                                     .instantiate(
+                                                         Instantiator.constructor()
+                                                                     .parameter(String.class, "str")
+                                                     )
+                                                     .set("str", "Hello")
+                                                     .sample();
+        Assertions.assertThat(instant).isNotNull();
+        Assertions.assertThat(instant.value).isEqualTo("Hello");
     }
 }
