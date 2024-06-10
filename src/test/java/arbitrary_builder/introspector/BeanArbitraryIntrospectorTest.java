@@ -3,6 +3,7 @@ package arbitrary_builder.introspector;
 import com.navercorp.fixturemonkey.ArbitraryBuilder;
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import introspector.AllArgWithSetter;
+import introspector.NoArgWithSetter;
 import introspector.NoSetter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -39,5 +40,20 @@ class BeanArbitraryIntrospectorTest {
         Assertions.assertThatThrownBy(arbitraryBuilder::sample)
                   .isInstanceOf(NullPointerException.class)
                   .hasMessageContaining("Cannot invoke \"java.beans.PropertyDescriptor.getWriteMethod()\" because \"propertyDescriptor\" is null");
+    }
+
+    @Test
+    @DisplayName("기본 생성자와 setter가 있으면 생성 성공.")
+    void test_102() {
+        FixtureMonkey fixtureMonkey = FixtureMonkey.create();
+
+        NoArgWithSetter actual = fixtureMonkey.giveMeBuilder(NoArgWithSetter.class)
+                                               .sample();
+
+        Assertions.assertThat(actual).isNotNull();
+
+        /*
+         * 참고 : name, job 필드는 null, empty 일 수 있음.
+         */
     }
 }
