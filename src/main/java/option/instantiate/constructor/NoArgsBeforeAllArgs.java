@@ -1,19 +1,23 @@
-package constructor_properties;
+package option.instantiate.constructor;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.NoArgsConstructor;
 
 import java.beans.ConstructorProperties;
 
-@NoArgsConstructor
-public class BothButAllArgsByManual {
+public class NoArgsBeforeAllArgs {
     @NotBlank
     public String name;
     @NotBlank
     public String job;
 
+    public boolean onlyInitiatedByNoArgs;
+
+    public NoArgsBeforeAllArgs() {
+        this.onlyInitiatedByNoArgs = true;
+    }
+
     @ConstructorProperties({"name", "job"})
-    public BothButAllArgsByManual(String name, String job) {
+    public NoArgsBeforeAllArgs(String name, String job) {
         this.name = name;
         this.job = job;
     }

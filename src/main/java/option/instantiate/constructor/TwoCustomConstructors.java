@@ -1,4 +1,4 @@
-package constructor_properties;
+package option.instantiate.constructor;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -15,7 +15,7 @@ public class TwoCustomConstructors {
 
     public Instant createdAt;
 
-    public TwoCustomConstructors (
+    public TwoCustomConstructors(
         String str,
         long id,
         long price
@@ -27,7 +27,7 @@ public class TwoCustomConstructors {
         this.createdAt = Instant.now();
     }
 
-    public TwoCustomConstructors (
+    public TwoCustomConstructors(
         long id,
         long price,
         List<String> options

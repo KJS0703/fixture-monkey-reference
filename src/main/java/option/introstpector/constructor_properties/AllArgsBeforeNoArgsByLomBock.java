@@ -1,10 +1,12 @@
-package constructor_properties;
+package option.introstpector.constructor_properties;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-public class OnlyAllArg {
+@NoArgsConstructor
+public class AllArgsBeforeNoArgsByLomBock {
     @NotBlank
     public String name;
     @NotBlank

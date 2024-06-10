@@ -3,9 +3,9 @@ package option.instantiate;
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.instantiator.Instantiator;
 import com.navercorp.fixturemonkey.api.type.TypeReference;
-import constructor_properties.AllArgsBeforeNoArgs;
-import constructor_properties.NoArgsBeforeAllArgs;
-import constructor_properties.TwoCustomConstructors;
+import option.instantiate.constructor.AllArgsBeforeNoArgs;
+import option.instantiate.constructor.NoArgsBeforeAllArgs;
+import option.instantiate.constructor.TwoCustomConstructors;
 import option.instantiate.constructor.GenericObject;
 import option.instantiate.constructor.NestedProduct;
 import option.instantiate.constructor.ProductList;
@@ -13,7 +13,6 @@ import option.instantiate.factory_method.TwoFactoryMethods;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

@@ -1,13 +1,15 @@
+package option.introspector;
+
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
 import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPlugin;
-import constructor_properties.AllArgsBeforeNoArgs;
-import constructor_properties.AllArgsBeforeNoArgsByLomBock;
-import constructor_properties.BothButAllArgsByManual;
-import constructor_properties.NoArgsBeforeAllArgs;
-import constructor_properties.NoArgsBeforeAllArgsByLomBock;
-import constructor_properties.OnlyAllArg;
-import constructor_properties.OnlyNoArg;
+import option.introstpector.constructor_properties.AllArgsBeforeNoArgs;
+import option.introstpector.constructor_properties.AllArgsBeforeNoArgsByLomBock;
+import option.introstpector.constructor_properties.BothButAllArgsByManual;
+import option.introstpector.constructor_properties.NoArgsBeforeAllArgs;
+import option.introstpector.constructor_properties.NoArgsBeforeAllArgsByLomBock;
+import option.introstpector.constructor_properties.OnlyAllArg;
+import option.introstpector.constructor_properties.OnlyNoArg;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
