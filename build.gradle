@@ -15,9 +15,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
-    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter:1.0.14")
-    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-jakarta-validation:1.0.14")
-    testImplementation 'org.assertj:assertj-core:3.6.1'
+    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter:1.0.16")
+    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-jakarta-validation:1.0.16")
+    testImplementation 'org.assertj:assertj-core:3.22.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
