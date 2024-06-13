@@ -1,4 +1,4 @@
-package constructor_properties;
+package option.introstpector.constructor_properties;
 
 public class OnlyNoArg {
     public String name;

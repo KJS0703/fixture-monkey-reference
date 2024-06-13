@@ -1,4 +1,4 @@
-package constructor_properties;
+package option.introstpector.constructor_properties;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.NoArgsConstructor;
