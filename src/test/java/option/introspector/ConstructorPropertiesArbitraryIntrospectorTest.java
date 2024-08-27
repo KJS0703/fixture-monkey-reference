@@ -10,9 +10,12 @@ import option.introstpector.constructor_properties.NoArgsBeforeAllArgs;
 import option.introstpector.constructor_properties.NoArgsBeforeAllArgsByLomBock;
 import option.introstpector.constructor_properties.OnlyAllArg;
 import option.introstpector.constructor_properties.OnlyNoArg;
+import option.introstpector.constructor_properties.ParameterArgWithAnnotation;
+import option.introstpector.constructor_properties.ParameterArgWithoutAnnotation;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
 @DisplayName("ConstructorPropertiesArbitraryIntrospector.INSTANCE 그리고 lombok.anyConstructor.addConstructorProperties=true")
 class ConstructorPropertiesArbitraryIntrospectorTest {
@@ -35,6 +38,33 @@ class ConstructorPropertiesArbitraryIntrospectorTest {
         Assertions.assertThat(onlyNoArg.name).isNullOrEmpty();
         Assertions.assertThat(onlyNoArg.job).isNullOrEmpty();
 
+    }
+
+    @Test
+    @DisplayName("파라미터가 있는 생성자는 @ConstructorProperties 어노테이션이 있어야 성공.")
+    void test_101() {
+        FixtureMonkey fm = FixtureMonkey.builder()
+                                        .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                                        .plugin(new JakartaValidationPlugin())
+                                        .build();
+
+        ParameterArgWithAnnotation withAnnotation = fm.giveMeBuilder(ParameterArgWithAnnotation.class).sample();
+
+        Assertions.assertThat(withAnnotation.name).isNotNull();
+        Assertions.assertThat(withAnnotation.job).isNotNull();
+    }
+
+    @Test
+    @DisplayName("파라미터가 있는 생성자는 @ConstructorProperties 어노테이션이 없으면 null 반환.")
+    void test_102() {
+        FixtureMonkey fm = FixtureMonkey.builder()
+                                        .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                                        .plugin(new JakartaValidationPlugin())
+                                        .build();
+
+        ParameterArgWithoutAnnotation withoutAnnotation = fm.giveMeBuilder(ParameterArgWithoutAnnotation.class).sample();
+
+        Assertions.assertThat(withoutAnnotation).isNull();
     }
 
     @RepeatedTest(30)
