@@ -3,6 +3,7 @@ package option.introspector;
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
 import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPlugin;
+import introspector.StringLengthConstructor;
 import option.introstpector.constructor_properties.AllArgsBeforeNoArgs;
 import option.introstpector.constructor_properties.AllArgsBeforeNoArgsByLomBock;
 import option.introstpector.constructor_properties.BothButAllArgsByManual;
@@ -145,5 +146,35 @@ class ConstructorPropertiesArbitraryIntrospectorTest {
 
         Assertions.assertThat(instance.name).isNotNull();
         Assertions.assertThat(instance.job).isNotNull();
+    }
+
+    @Test
+    @DisplayName("생성자 파라미터와 필드가 타입이 다르면 필드의 값을 직접 설정할 수 없다.")
+    void test200() {
+        FixtureMonkey fm = FixtureMonkey.builder()
+                                        .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                                        .build();
+
+        StringLengthConstructor sample = fm.giveMeBuilder(StringLengthConstructor.class)
+                                           .set("len", 179)
+                                           .sample();
+
+        Assertions.assertThat(sample).isNotNull();
+        Assertions.assertThat(sample.len).isNotEqualTo(179);
+    }
+
+    @Test
+    @DisplayName("생성자 파라미터와 필드가 타입이 다르면 생성자 파라미터를 이용해야한다.")
+    void test201() {
+        FixtureMonkey fm = FixtureMonkey.builder()
+                                        .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                                        .build();
+
+        StringLengthConstructor sample = fm.giveMeBuilder(StringLengthConstructor.class)
+                                           .set("str", "use-parameter")
+                                           .sample();
+
+        Assertions.assertThat(sample).isNotNull();
+        Assertions.assertThat(sample.len).isEqualTo("use-parameter".length());
     }
 }
