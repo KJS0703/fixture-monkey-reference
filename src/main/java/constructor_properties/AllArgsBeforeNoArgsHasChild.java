@@ -1,5 +1,6 @@
 package constructor_properties;
 
+import arbitrarybuilder.AllArgsBeforeNoArgs;
 import jakarta.validation.constraints.NotBlank;
 
 import java.beans.ConstructorProperties;

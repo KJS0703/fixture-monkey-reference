@@ -3,6 +3,7 @@ package option.introspector;
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
 import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPlugin;
+import introspector.StringLengthConstructor;
 import option.introstpector.constructor_properties.AllArgsBeforeNoArgs;
 import option.introstpector.constructor_properties.AllArgsBeforeNoArgsByLomBock;
 import option.introstpector.constructor_properties.BothButAllArgsByManual;
@@ -10,9 +11,12 @@ import option.introstpector.constructor_properties.NoArgsBeforeAllArgs;
 import option.introstpector.constructor_properties.NoArgsBeforeAllArgsByLomBock;
 import option.introstpector.constructor_properties.OnlyAllArg;
 import option.introstpector.constructor_properties.OnlyNoArg;
+import option.introstpector.constructor_properties.ParameterArgWithAnnotation;
+import option.introstpector.constructor_properties.ParameterArgWithoutAnnotation;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
 @DisplayName("ConstructorPropertiesArbitraryIntrospector.INSTANCE 그리고 lombok.anyConstructor.addConstructorProperties=true")
 class ConstructorPropertiesArbitraryIntrospectorTest {
@@ -35,6 +39,33 @@ class ConstructorPropertiesArbitraryIntrospectorTest {
         Assertions.assertThat(onlyNoArg.name).isNullOrEmpty();
         Assertions.assertThat(onlyNoArg.job).isNullOrEmpty();
 
+    }
+
+    @Test
+    @DisplayName("파라미터가 있는 생성자는 @ConstructorProperties 어노테이션이 있어야 성공.")
+    void test_101() {
+        FixtureMonkey fm = FixtureMonkey.builder()
+                                        .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                                        .plugin(new JakartaValidationPlugin())
+                                        .build();
+
+        ParameterArgWithAnnotation withAnnotation = fm.giveMeBuilder(ParameterArgWithAnnotation.class).sample();
+
+        Assertions.assertThat(withAnnotation.name).isNotNull();
+        Assertions.assertThat(withAnnotation.job).isNotNull();
+    }
+
+    @Test
+    @DisplayName("파라미터가 있는 생성자는 @ConstructorProperties 어노테이션이 없으면 null 반환.")
+    void test_102() {
+        FixtureMonkey fm = FixtureMonkey.builder()
+                                        .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                                        .plugin(new JakartaValidationPlugin())
+                                        .build();
+
+        ParameterArgWithoutAnnotation withoutAnnotation = fm.giveMeBuilder(ParameterArgWithoutAnnotation.class).sample();
+
+        Assertions.assertThat(withoutAnnotation).isNull();
     }
 
     @RepeatedTest(30)
@@ -115,5 +146,35 @@ class ConstructorPropertiesArbitraryIntrospectorTest {
 
         Assertions.assertThat(instance.name).isNotNull();
         Assertions.assertThat(instance.job).isNotNull();
+    }
+
+    @Test
+    @DisplayName("생성자 파라미터와 필드가 타입이 다르면 필드의 값을 직접 설정할 수 없다.")
+    void test200() {
+        FixtureMonkey fm = FixtureMonkey.builder()
+                                        .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                                        .build();
+
+        StringLengthConstructor sample = fm.giveMeBuilder(StringLengthConstructor.class)
+                                           .set("len", 179)
+                                           .sample();
+
+        Assertions.assertThat(sample).isNotNull();
+        Assertions.assertThat(sample.len).isNotEqualTo(179);
+    }
+
+    @Test
+    @DisplayName("생성자 파라미터와 필드가 타입이 다르면 생성자 파라미터를 이용해야한다.")
+    void test201() {
+        FixtureMonkey fm = FixtureMonkey.builder()
+                                        .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                                        .build();
+
+        StringLengthConstructor sample = fm.giveMeBuilder(StringLengthConstructor.class)
+                                           .set("str", "use-parameter")
+                                           .sample();
+
+        Assertions.assertThat(sample).isNotNull();
+        Assertions.assertThat(sample.len).isEqualTo("use-parameter".length());
     }
 }
